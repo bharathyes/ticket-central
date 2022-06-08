@@ -6,8 +6,8 @@ Current release:
 2. Provide available time slots
 3. Seats selection if applicable
 4. Timed cart functionality with temporary seat blocking
-5. Checkout on payment success
+5. View tickets of past and upcoming events registered
 
 Future release:
-1. View tickets of past and upcoming events registered
-2. Cancel and apply refund ?
+1. Checkout on payment success
+2. Cancel and apply refund

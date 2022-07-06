@@ -1,14 +1,26 @@
-
 window["ticketCentral"] = {};
 
 // register, login, logout, getRegistered
-(function (root, publicFns) {
-  root["ticketCentral"]["auth"] = publicFns();
-})(window, function () {
+
+var Auth = function () {
   var authList = {};
   var loggedInUser = null;
 
-  var register = function (username, password) {
+  function isNull(username, password) {
+    return typeof username === "undefined" || typeof password === "undefined";
+  }
+
+  function isEmpty(username, password) {
+    return username === "" || password === "";
+  }
+
+  this.register = function (username, password) {
+    if (isNull(username, password)) {
+      return "Invalid username/password entered.";
+    }
+    if (isEmpty(username, password)) {
+      return "Empty username/password entered.";
+    }
     if (username in authList) {
       return "Username already in use.";
     }
@@ -16,7 +28,13 @@ window["ticketCentral"] = {};
     return "User added";
   };
 
-  var login = function (username, password) {
+  this.login = function (username, password) {
+    if (isNull(username, password)) {
+      return "Invalid username/password entered.";
+    }
+    if (isEmpty(username, password)) {
+      return "Empty username/password entered.";
+    }
     if (password === authList[username]) {
       loggedInUser = username;
       return "Successfully logged in.";
@@ -24,20 +42,13 @@ window["ticketCentral"] = {};
     return "Invalid username / password.";
   };
 
-  var logout = function () {
+  this.logout = function () {
     loggedInUser = null;
     return "Successfully logged out.";
   };
 
-  var getLoggedInUser = function () {
+  this.getLoggedInUser = function () {
     return loggedInUser;
   };
+};
 
-
-  return {
-    register: register,
-    login: login,
-    logout: logout,
-    getLoggedInUser: getLoggedInUser,
-  };
-});

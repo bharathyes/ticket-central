@@ -1,5 +1,10 @@
 // add data from here
 
+
+ticketCentral.auth = new Auth();
+
+ticketCentral.events = new Events();
+
 var eventsData = {
   1234: {
     name: "KGF2",
@@ -70,9 +75,15 @@ var newEvent = {
 };
 
 
-function (init)
+(function init() {
 
-addNewEvent(newEvent);
+  var keys = Object.keys(eventsData);
+  for (var i = 0 ; i < keys.length ; ++i ) {
+    ticketCentral.events.addNewEvent({ [keys[i]]: eventsData[keys[i]] });
+  }
+
+})();
+ticketCentral.events.addNewEvent(newEvent);
 
 
 ticketCentral.auth.register("bharath", "pass");

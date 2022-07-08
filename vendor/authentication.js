@@ -21,19 +21,19 @@ window["ticketCentral"] = {};
     this.username = username;
     this.password = password;
 
-    this.getUsername = function() {
-      return this.username;
-    }
-
-    this.getPassword = function () {
-      return this.password;
-    }
-
-    this.setPassword = function (password) {
-      this.password = password;
-    }
-
   };
+
+  User.prototype.getUsername = function() {
+    return this.username;
+  }
+
+  User.prototype.getPassword = function () {
+    return this.password;
+  }
+
+  User.prototype.setPassword = function (password) {
+    this.password = password;
+  }
 
   var register = function (username, password) {
     if (isNull(username, password)) {

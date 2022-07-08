@@ -1,9 +1,4 @@
 
-ticketCentral.events = new Events();
-
-var user1Event = new Event(user1Event);
-
-
 var eventsData = {
   1234: {
     name: "KGF2",

@@ -1,21 +1,95 @@
 // findEventById, listEvents, listEventsSummary, addNewEvent, bookEvent, showBookings
 
-var Events = function () {
+(function (root, publicFns) {
+  root["ticketCentral"]["events"] = publicFns(root.ticketCentral.auth);
+})(window, function (authFns) {
   var authFns = window.ticketCentral.auth;
 
   var userData = {};
 
   var eventsData = {};
 
-  this.findEventById = function (id) {
+  var User = function (username, bookings) {
+    this.username = username;
+    this.bookings = bookings;
+
+    this.getUsername = function() {
+      return this.username;
+    }
+
+    this.getBookings = function () {
+      return this.bookings;
+    }
+
+    this.setBookings = function (bookings) {
+      this.bookings = bookings;
+    }
+
+  };
+
+  var Booking = function(theatre, timePeriod, seats) {
+    this.theatre = theatre;
+    this.timePeriod = timePeriod;
+    this.seats = seats;
+  }
+
+  Booking.prototype.getTheatre = function() {
+    return this.theatre;
+  }
+  Booking.prototype.setTheatre = function(theatre) {
+    this.theatre = theatre;
+  }
+  Booking.prototype.getTimePeriod = function() {
+    return time.timePeriod;
+  }
+  Booking.prototype.setTimePeriod = function(timePeriod) {
+    this.timePeriod = timePeriod;
+  }
+  Booking.prototype.getSeats = function() {
+    return this.seats;
+  }
+  Booking.prototype.setSeats = function(seats) {
+    this.seats = seats;
+  }
+
+  var Event = function (name, price, showings) {
+
+    this.name = name;
+    this.price = price;
+    this.showings = showings;
+    
+  };
+
+  Event.prototype.getName = function() {
+    return this.name;
+  }
+  Event.prototype.setName = function(name) {
+    this.name = name;
+  }
+
+  Event.prototype.getPrice = function() {
+    return this.price;
+  }
+  Event.prototype.setPrice = function(price) {
+    this.price = price;
+  }
+
+  Event.prototype.getShowings = function() {
+    return this.showings;
+  }
+  Event.prototype.setShowings = function(showings) {
+    this.showings = showings;
+  }
+
+  var findEventById = function (id) {
     return eventsData[id];
   };
 
-  this.listEvents = function () {
+  var listEvents = function () {
     return eventsData;
   };
 
-  this.listEventsSummary = function () {
+  var listEventsSummary = function () {
     var eventsSummary = {};
     var keyList = Object.keys(eventsData);
     for (var i = 0; i < eventsData.length; ++i) {
@@ -55,7 +129,7 @@ var Events = function () {
     );
   }
 
-  this.addNewEvent = function (eventData) {
+  var addNewEvent = function (eventData) {
     // console.log(validateEventKeys(eventData));
     if (
       typeof eventData === "object" &&
@@ -64,7 +138,10 @@ var Events = function () {
       validateEventKeys(eventData, Object.keys(eventData)[0])
     ) {
       var key = Object.keys(eventData)[0];
-      eventsData[key] = eventData[key];
+
+      var event = eventData[key];
+      var eventObj = new Event(event.name, event.price, event.showings);
+      eventsData[key] = eventObj;
       return "Data added successfully.";
     } else {
       return "Invalid data not added.";
@@ -85,7 +162,7 @@ var Events = function () {
     return userData[id].bookings[eventId];
   }
 
-  this.bookEvent = function (eventId, slot, seatCount) {
+  var bookEvent = function (eventId, slot, seatCount) {
     if (!(eventId in eventsData)) {
       return "Invalid event ID.";
     }
@@ -110,7 +187,7 @@ var Events = function () {
     }
   };
 
-  this.showBookings = function () {
+  var showBookings = function () {
     var loggedInUser = authFns.getLoggedInUser();
     if (typeof loggedInUser === "undefined" || loggedInUser === null) {
       return "No user logged in.";
@@ -122,4 +199,14 @@ var Events = function () {
       return data.bookings;
     }
   };
-};
+
+
+  return {
+    findEventById: findEventById,
+    listEvents: listEvents,
+    listEventsSummary: listEventsSummary,
+    addNewEvent: addNewEvent,
+    bookEvent: bookEvent,
+    showBookings: showBookings,
+  };
+});
